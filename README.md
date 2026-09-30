@@ -62,7 +62,7 @@ nrfjprog -f nrf52 --program _build/nrf52832_xxaa.hex --sectorerase --reset
 ## GUI 사용법
 
 1. Chrome 또는 Edge 로 엽니다 (Firefox·Safari 는 Web Serial 미지원).
-2. 보레이트 1000000 을 고르고 **연결** → 포트 선택 창에서 DK 의 "JLink CDC UART Port" 를 고릅니다.
+2. Baud Rate 1000000 을 고르고 **연결** → 포트 선택 창에서 DK 의 "JLink CDC UART Port" 를 고릅니다.
 3. **샘플링 레이트** 를 고르고 **레이트 적용** → MCU 가 STATUS 프레임으로 확인해 줍니다.
 4. **시작** / **정지** 로 수집을 제어합니다.
 5. **CSV 저장** 은 버퍼 전체(채널당 최대 1,048,576 샘플)를 내려받습니다.
@@ -115,16 +115,16 @@ CRC8: poly 0x07, init 0x00, TYPE 부터 PAYLOAD 끝까지
 - `seq` 는 DATA 프레임마다 1씩 증가합니다. GUI 는 seq 건너뜀을 "드롭 프레임" 으로 셉니다.
 - SET_RATE 를 받으면 범위로 클램프한 뒤 실제 적용된 값을 STATUS 로 돌려줍니다. GUI 는 이 값을 시간축 기준으로 씁니다.
 
-### 보레이트별 4채널 최대 샘플링 레이트 (batch 16 기준)
+### Baud Rate별 4채널 최대 샘플링 레이트 (batch 16 기준)
 
-| 보레이트 | 대략 최대 |
+| Baud Rate | 대략 최대 |
 |---|---|
 | 115200 | 1.3 kHz |
 | 460800 | 5.4 kHz |
 | 921600 | 10.9 kHz |
 | 1000000 | 11.8 kHz |
 
-펌웨어와 GUI 의 보레이트는 같아야 합니다 (`main.c` 의 `UART_BAUDRATE`).
+펌웨어와 GUI 의 Baud Rate는 같아야 합니다 (`main.c` 의 `UART_BAUDRATE`).
 1 Mbps 에서 DK 의 가상 COM 포트가 데이터를 흘리면 양쪽 모두 921600 으로 낮춰 보세요.
 
 ## 다음 단계 후보
