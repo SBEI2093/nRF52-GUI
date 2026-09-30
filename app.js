@@ -260,7 +260,7 @@ function updateBaudHint() {
   const baud = +$('baud').value;
   const max = maxRateForBaud(baud);
   const want = selectedRate();
-  let txt = `이 보레이트로 4채널 최대 약 ${max.toLocaleString()} Hz`;
+  let txt = `이 Baud Rate로 4채널 최대 약 ${max.toLocaleString()} Hz`;
   if (want > max) txt += ` (요청한 ${want.toLocaleString()} Hz 는 대역폭 초과)`;
   $('baudHint').textContent = txt;
   $('baudHint').style.color = want > max ? 'var(--bad)' : '';
@@ -428,4 +428,4 @@ buildPlot();
 updateBaudHint();
 updateButtons();
 requestAnimationFrame(frame);
-log('준비됨. 보레이트를 고르고 연결을 누르세요.');
+log('준비됨. Baud Rate를 고르고 연결을 누르세요.');
