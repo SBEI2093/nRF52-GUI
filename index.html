@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>nRF52 ADC Monitor</title>
+  <link rel="stylesheet" href="uplot.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>nRF52832 ADC 실시간 모니터</h1>
+    <div class="conn">
+      <span id="connDot" class="dot"></span>
+      <span id="connText">연결 안 됨</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel" id="connPanel">
+      <div class="row">
+        <label>보레이트
+          <select id="baud">
+            <option value="115200">115200</option>
+            <option value="230400">230400</option>
+            <option value="460800">460800</option>
+            <option value="921600">921600</option>
+            <option value="1000000" selected>1000000</option>
+          </select>
+        </label>
+        <span id="baudHint" class="hint"></span>
+        <button id="btnConnect" class="primary">연결</button>
+      </div>
+      <div id="serialWarn" class="warn hidden">
+        이 브라우저는 Web Serial API를 지원하지 않습니다. Chrome 또는 Edge에서 HTTPS 주소나 localhost로 여세요.
+      </div>
+    </section>
+
+    <section class="panel" id="ctrlPanel">
+      <div class="row">
+        <label>샘플링 레이트 (Hz)
+          <select id="rateSel">
+            <option value="100">100</option>
+            <option value="250">250</option>
+            <option value="500">500</option>
+            <option value="1000" selected>1000</option>
+            <option value="2000">2000</option>
+            <option value="4000">4000</option>
+            <option value="8000">8000</option>
+            <option value="custom">직접 입력</option>
+          </select>
+        </label>
+        <input type="number" id="rateCustom" min="1" max="200000" step="1" value="1000" class="hidden" style="width:7em">
+        <button id="btnRate" disabled>레이트 적용</button>
+        <span class="sep"></span>
+        <button id="btnStart" class="primary" disabled>시작</button>
+        <button id="btnStop" disabled>정지</button>
+        <span class="sep"></span>
+        <button id="btnPause" disabled>화면 일시정지</button>
+        <button id="btnClear">버퍼 비우기</button>
+        <button id="btnCsv">CSV 저장</button>
+      </div>
+      <div class="row">
+        <label>표시 구간
+          <select id="winSel">
+            <option value="0.5">0.5 s</option>
+            <option value="1">1 s</option>
+            <option value="2" selected>2 s</option>
+            <option value="5">5 s</option>
+            <option value="10">10 s</option>
+            <option value="30">30 s</option>
+          </select>
+        </label>
+        <label>단위
+          <select id="unitSel">
+            <option value="raw" selected>raw (count)</option>
+            <option value="volt">전압 (V)</option>
+          </select>
+        </label>
+        <label>분해능
+          <select id="bitsSel">
+            <option value="12" selected>12 bit</option>
+            <option value="14">14 bit (oversample)</option>
+          </select>
+        </label>
+        <label>풀스케일 전압
+          <input type="number" id="vfs" value="3.6" step="0.1" min="0.1" style="width:5em"> V
+        </label>
+        <label class="chk"><input type="checkbox" id="autoY" checked> Y축 자동</label>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="stat"><span class="k">MCU 레이트</span><span class="v" id="sMcuRate">-</span></div>
+      <div class="stat"><span class="k">실측 레이트</span><span class="v" id="sMeasRate">-</span></div>
+      <div class="stat"><span class="k">수신 속도</span><span class="v" id="sBps">-</span></div>
+      <div class="stat"><span class="k">프레임</span><span class="v" id="sFrames">0</span></div>
+      <div class="stat"><span class="k">드롭 프레임</span><span class="v" id="sDrop">0</span></div>
+      <div class="stat"><span class="k">CRC 오류</span><span class="v" id="sCrc">0</span></div>
+      <div class="stat"><span class="k">버퍼</span><span class="v" id="sBuf">0</span></div>
+    </section>
+
+    <section id="plot"></section>
+
+    <section class="panel">
+      <div class="row between">
+        <strong>로그</strong>
+        <button id="btnLogClear" class="small">지우기</button>
+      </div>
+      <pre id="log"></pre>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/uplot@1.6.32/dist/uPlot.iife.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
